@@ -23,10 +23,19 @@ func finder(rclient *redis.Client) {
   wvalue := tview.NewTextView()
   wvalue.SetBorder(true).SetTitle("Value")
 
+	wtoolbar := tview.NewTextView().SetText("[CTRL-c] QUIT")
+
+	wmain := tview.NewFlex().
+		AddItem(wkeys, 0, 1, true).
+		AddItem(wvalue, 0, 1, false)
+
+	wfooter := tview.NewFlex().
+		AddItem(wtoolbar, 0, 1, false)
+
   // Create window layout
-  flex := tview.NewFlex().
-    AddItem(wkeys, 0, 1, true).
-    AddItem(wvalue, 0, 1, false)
+	flex := tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(wmain, 0, 20, true).
+		AddItem(wfooter, 0, 1, false)
 
   // Get redis data
   keys := pkg.GetAllKeys(rclient)
